@@ -14,6 +14,7 @@ import com.android.myapplication.screens.common.toolbar.MyToolbar
 class QuestionsDetailMVC constructor(
     layoutInflater: LayoutInflater,
     viewGroup: ViewGroup?
+
 ) {
 
     private lateinit var toolbar: MyToolbar
