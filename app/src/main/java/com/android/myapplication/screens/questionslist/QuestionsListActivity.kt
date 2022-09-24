@@ -2,24 +2,17 @@
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.android.myapplication.Constants
-import com.android.myapplication.R
-import com.android.myapplication.questiondetails.QuestionDetailsActivity
+import com.android.myapplication.screens.questiondetails.QuestionDetailsActivity
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.networking.StackoverflowApi
 import com.android.myapplication.questions.Question
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 
-class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener{
+ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener{
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 

@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".questiondetails.QuestionDetailsActivity"/>
+        <activity android:name=".screens.questiondetails.QuestionDetailsActivity"/>
 
     </application>
 
