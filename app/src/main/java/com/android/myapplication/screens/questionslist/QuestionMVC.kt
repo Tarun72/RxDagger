@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.myapplication.R
 import com.android.myapplication.questions.Question
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.ArrayList
 
 class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) {
@@ -18,10 +19,12 @@ class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) {
     interface Listener{
         fun onRefreshClicked()
         fun onQuestionClicked(clickedQuestion: Question)
+        fun onRxModuleClick()
     }
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var recyclerView: RecyclerView
     private lateinit var questionsAdapter: QuestionsAdapter
+    private lateinit var rxEntryButton:FloatingActionButton
      var rootView:View
      private val context:Context get() = rootView.context
 
@@ -52,6 +55,12 @@ class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) {
             }
         }
         recyclerView.adapter = questionsAdapter
+        rxEntryButton = findViewById(R.id.rxEntry)
+        rxEntryButton.setOnClickListener {
+            for (mlistern in listeners){
+                mlistern.onRxModuleClick()
+            }
+        }
 
     }
 
