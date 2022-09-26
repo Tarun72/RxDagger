@@ -43,7 +43,7 @@ class RxjavaActivity : AppCompatActivity() {
             it.length > 3
         }.delay(3, TimeUnit.SECONDS).subscribeOn(AndroidSchedulers.mainThread()).subscribe {
             it?.let {
-                println("final result $it")
+                println("final result $it") 
             }
         }
     }
