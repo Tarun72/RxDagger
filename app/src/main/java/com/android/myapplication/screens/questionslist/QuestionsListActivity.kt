@@ -4,16 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.android.myapplication.Constants
 import com.android.myapplication.screens.questiondetails.QuestionDetailsActivity
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
-import com.android.myapplication.networking.StackoverflowApi
 import com.android.myapplication.questions.Question
 import com.android.myapplication.questions.QuestionListUseCase
 import com.android.myapplication.screens.rxjava.RxjavaActivity
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
 
