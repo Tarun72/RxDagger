@@ -3,10 +3,8 @@ package com.android.myapplication.screens.questiondetails
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.myapplication.R
 import com.android.myapplication.screens.common.toolbar.MyToolbar
