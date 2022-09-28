@@ -1,4 +1,4 @@
- package com.android.myapplication.screens.questionslist
+package com.android.myapplication.screens.questionslist
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,34 +9,27 @@ import com.android.myapplication.screens.questiondetails.QuestionDetailsActivity
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.networking.StackoverflowApi
 import com.android.myapplication.questions.Question
+import com.android.myapplication.questions.QuestionListUseCase
 import com.android.myapplication.screens.rxjava.RxjavaActivity
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
- class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener{
+class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-
-    private lateinit var stackoverflowApi: StackoverflowApi
-
     private var isDataLoaded = false
 
-    lateinit var viewQuestionMVC:QuestionMVC
+    lateinit var viewQuestionMVC: QuestionMVC
+    lateinit var questionListUseCase: QuestionListUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewQuestionMVC = QuestionMVC(LayoutInflater.from(this),null)
-
+        viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
+questionListUseCase = QuestionListUseCase()
         setContentView(viewQuestionMVC.rootView)
 
-        // init retrofit
-        val retrofit = Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
     }
 
     override fun onStart() {
@@ -57,16 +50,15 @@ import retrofit2.converter.gson.GsonConverterFactory
         coroutineScope.launch {
             viewQuestionMVC.showProgressIndication()
             try {
-                val response = stackoverflowApi.lastActiveQuestions(20)
-                if (response.isSuccessful && response.body() != null) {
-                    viewQuestionMVC.bindQuestions(response.body()!!.questions)
-                    isDataLoaded = true
-                } else {
-                    onFetchFailed()
-                }
-            } catch (t: Throwable) {
-                if (t !is CancellationException) {
-                    onFetchFailed()
+                val response = questionListUseCase.fetchQuestions()
+                when (response) {
+                    is QuestionListUseCase.APIResult.SuccessResult -> {
+                        viewQuestionMVC.bindQuestions(response.questions)
+                        isDataLoaded = true
+                    }
+                    is QuestionListUseCase.APIResult.Failure -> {
+                        onFetchFailed()
+                    }
                 }
             } finally {
                 viewQuestionMVC.hideProgressIndication()
@@ -76,10 +68,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
     private fun onFetchFailed() {
         supportFragmentManager.beginTransaction()
-                .add(ServerErrorDialogFragment.newInstance(), null)
-                .commitAllowingStateLoss()
+            .add(ServerErrorDialogFragment.newInstance(), null)
+            .commitAllowingStateLoss()
     }
-
 
 
     override fun onRefreshClicked() {
@@ -91,8 +82,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
     }
 
-     override fun onRxModuleClick() {
-         val intent = Intent(this, RxjavaActivity::class.java)
-         startActivity(intent)
-     }
- }
+    override fun onRxModuleClick() {
+        val intent = Intent(this, RxjavaActivity::class.java)
+        startActivity(intent)
+    }
+}
