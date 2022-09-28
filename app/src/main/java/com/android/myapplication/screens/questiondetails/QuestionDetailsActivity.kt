@@ -47,7 +47,7 @@ private lateinit var stackoverflowApi: StackoverflowApi
         super.onStop()
 
         coroutineScope.coroutineContext.cancelChildren()
-        questionMVC.unregisterListener(this
+        questionMVC.unRegisterListener(this
         )
     }
 

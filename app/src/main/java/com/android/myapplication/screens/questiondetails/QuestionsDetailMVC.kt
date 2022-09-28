@@ -10,36 +10,29 @@ import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.myapplication.R
 import com.android.myapplication.screens.common.toolbar.MyToolbar
+import com.android.myapplication.screens.common.views.BasicMVCView
 
 class QuestionsDetailMVC constructor(
     layoutInflater: LayoutInflater,
     viewGroup: ViewGroup?
-) {
+): BasicMVCView<QuestionsDetailMVC.ClickListener>(layoutInflater,viewGroup  ,R.layout.layout_question_details) {
 
     private lateinit var toolbar: MyToolbar
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var txtQuestionBody: TextView
-     var rootView:View
-
-    private val listener = HashSet<ClickListener>()
-
 
     interface ClickListener{
         fun onBackClicked()
     }
-    init {
-        rootView = layoutInflater.inflate(R.layout.layout_question_details,viewGroup,false)
-        initView()
-    }
 
-    private fun initView(){
+    override fun initView(){
 
         txtQuestionBody = findViewById(R.id.txt_question_body)
 
         // init toolbar
         toolbar = findViewById(R.id.toolbar)
         toolbar.setNavigateUpListener {
-            for(list in listener){
+            for(list in listeners){
                 list.onBackClicked()
             }
         }
@@ -50,9 +43,6 @@ class QuestionsDetailMVC constructor(
 
     }
 
-    fun <T : View?> findViewById(@IdRes id: Int): T {
-        return rootView.findViewById<T>(id)
-    }
 
      fun showProgressIndication() {
         swipeRefresh.isRefreshing = true
@@ -70,14 +60,5 @@ class QuestionsDetailMVC constructor(
                 txtQuestionBody.text = Html.fromHtml(questionBody)
             }
         }
-
-
-    fun registerListener(listen: ClickListener) {
-        listener.add(listen)
-    }
-
-    fun unregisterListener(listen: ClickListener) {
-        listener.remove(listen)
-    }
 
 }

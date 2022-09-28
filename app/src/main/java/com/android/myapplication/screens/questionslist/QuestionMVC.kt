@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.myapplication.R
 import com.android.myapplication.questions.Question
+import com.android.myapplication.screens.common.views.BasicMVCView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.ArrayList
 
-class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) {
+class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) :
+    BasicMVCView<QuestionMVC.Listener>(layoutInflater,viewGroup,R.layout.layout_questions_list) {
 
     interface Listener{
         fun onRefreshClicked()
@@ -25,17 +27,9 @@ class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) {
     private lateinit var recyclerView: RecyclerView
     private lateinit var questionsAdapter: QuestionsAdapter
     private lateinit var rxEntryButton:FloatingActionButton
-     var rootView:View
-     private val context:Context get() = rootView.context
 
-     private val listeners = HashSet<Listener>()
 
-    init {
-       rootView =  layoutInflater.inflate(R.layout.layout_questions_list,viewGroup,false)
-        initViews()
-    }
-
-    private fun initViews(){
+    override fun initView(){
         // init pull-down-to-refresh
 
         // init pull-down-to-refresh
@@ -62,19 +56,6 @@ class QuestionMVC(layoutInflater: LayoutInflater,viewGroup: ViewGroup?) {
             }
         }
 
-    }
-
-    fun <T : View?> findViewById(@IdRes id: Int): T {
-        return rootView.findViewById<T>(id)
-    }
-
-    fun registerListener(listener: Listener){
-        listeners.add(listener)
-    }
-
-
-    fun unRegisterListener(listener: Listener){
-        listeners.remove(listener)
     }
 
      fun showProgressIndication() {
