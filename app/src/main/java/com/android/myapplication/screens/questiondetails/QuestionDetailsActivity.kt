@@ -5,13 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import com.android.myapplication.Constants
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
-import com.android.myapplication.networking.StackoverflowApi
 import com.android.myapplication.questions.QuestionDetailUseCase
+import com.android.myapplication.screens.common.dialogs.DialogNavigator
+import com.android.myapplication.screens.questionslist.QuestionsDetailMVC
 import kotlinx.coroutines.*
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickListener {
 
@@ -21,12 +19,15 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
 
     lateinit var questionMVC: QuestionsDetailMVC
     lateinit var questionDetailUseCase: QuestionDetailUseCase
+    lateinit var dialogNavigator:DialogNavigator
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         questionMVC = QuestionsDetailMVC(LayoutInflater.from(this), null)
         setContentView(questionMVC.rootView)
 
+         dialogNavigator = DialogNavigator(supportFragmentManager)
 
         questionDetailUseCase = QuestionDetailUseCase()
         // retrieve question ID passed from outside
@@ -67,9 +68,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
     }
 
     private fun onFetchFailed() {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(), null)
-            .commitAllowingStateLoss()
+        dialogNavigator.showServerErrorDialog()
     }
 
 
