@@ -51,6 +51,8 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
     }
 
     private fun fetchQuestions() {
+
+        
         coroutineScope.launch {
             viewQuestionMVC.showProgressIndication()
             try {
