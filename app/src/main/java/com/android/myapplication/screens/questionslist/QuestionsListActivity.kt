@@ -8,6 +8,7 @@ import com.android.myapplication.screens.questiondetails.QuestionDetailsActivity
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.Question
 import com.android.myapplication.questions.QuestionListUseCase
+import com.android.myapplication.screens.common.ScreenNavigator
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
 import com.android.myapplication.screens.questiondetails.QuestionMVC
 import com.android.myapplication.screens.rxjava.RxjavaActivity
@@ -22,13 +23,15 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
     lateinit var viewQuestionMVC: QuestionMVC
     lateinit var questionListUseCase: QuestionListUseCase
     lateinit var dialogNavigator: DialogNavigator
+    lateinit var screenNavigator: ScreenNavigator
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
-         questionListUseCase = QuestionListUseCase()
+        questionListUseCase = QuestionListUseCase()
         setContentView(viewQuestionMVC.rootView)
+        screenNavigator = ScreenNavigator(this)
         dialogNavigator = DialogNavigator(supportFragmentManager)
 
     }
@@ -68,7 +71,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
     }
 
     private fun onFetchFailed() {
-      dialogNavigator.showServerErrorDialog()
+        dialogNavigator.showServerErrorDialog()
     }
 
 
@@ -77,8 +80,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
     }
 
     override fun onQuestionClicked(clickedQuestion: Question) {
-        QuestionDetailsActivity.start(this, clickedQuestion.id)
-
+        screenNavigator.toDetailsActivity(clickedQuestion.id)
     }
 
     override fun onRxModuleClick() {

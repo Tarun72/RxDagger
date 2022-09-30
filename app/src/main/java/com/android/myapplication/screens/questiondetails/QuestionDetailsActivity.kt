@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.QuestionDetailUseCase
+import com.android.myapplication.screens.common.ScreenNavigator
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
 import com.android.myapplication.screens.questionslist.QuestionsDetailMVC
 import kotlinx.coroutines.*
@@ -19,15 +20,17 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
 
     lateinit var questionMVC: QuestionsDetailMVC
     lateinit var questionDetailUseCase: QuestionDetailUseCase
-    lateinit var dialogNavigator:DialogNavigator
+    lateinit var dialogNavigator: DialogNavigator
+    lateinit var screenNavigator: ScreenNavigator
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         questionMVC = QuestionsDetailMVC(LayoutInflater.from(this), null)
         setContentView(questionMVC.rootView)
+        screenNavigator = ScreenNavigator(this)
 
-         dialogNavigator = DialogNavigator(supportFragmentManager)
+        dialogNavigator = DialogNavigator(supportFragmentManager)
 
         questionDetailUseCase = QuestionDetailUseCase()
         // retrieve question ID passed from outside
@@ -52,11 +55,12 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
             questionMVC.showProgressIndication()
             try {
                 val response = questionDetailUseCase.fetchQuestionDetails(questionId)
-                when(response){
-                    is QuestionDetailUseCase.APIResult.SuccessResult ->{
+                when (response) {
+                    is QuestionDetailUseCase.APIResult.SuccessResult -> {
                         questionMVC.bindData(response.question.body)
 
-                    } is QuestionDetailUseCase.APIResult.Failure ->{
+                    }
+                    is QuestionDetailUseCase.APIResult.Failure -> {
                         onFetchFailed()
                     }
                 }
@@ -82,6 +86,6 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
     }
 
     override fun onBackClicked() {
-        onBackPressed()
+        screenNavigator.onActivityBackPress()
     }
 }
