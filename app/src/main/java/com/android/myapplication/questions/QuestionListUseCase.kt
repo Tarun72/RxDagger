@@ -9,9 +9,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class QuestionListUseCase constructor( private  val retrofit: Retrofit){
-
-    val stackoverflowApi: StackoverflowApi = retrofit.create(StackoverflowApi::class.java)
+class QuestionListUseCase constructor( private  val stackoverflowApi: StackoverflowApi){
 
     sealed class APIResult {
         class SuccessResult(val questions: List<Question>) : APIResult()

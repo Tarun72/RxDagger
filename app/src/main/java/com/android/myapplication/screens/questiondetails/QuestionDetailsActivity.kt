@@ -33,7 +33,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
 
         dialogNavigator = DialogNavigator(supportFragmentManager)
 
-        questionDetailUseCase = QuestionDetailUseCase((application as MyApplication).retrofit)
+        questionDetailUseCase = QuestionDetailUseCase((application as MyApplication).stackoverflowApi)
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
     }

@@ -8,9 +8,8 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.cancellation.CancellationException
 
-class QuestionDetailUseCase constructor( private val retrofit: Retrofit){
+class QuestionDetailUseCase constructor( private val stackoverflowApi: StackoverflowApi){
 
-    val stackoverflowApi: StackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
     sealed class APIResult {
         class SuccessResult(val question: QuestionWithBody) : APIResult()
