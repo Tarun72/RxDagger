@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.android.myapplication.MyApplication
 import com.android.myapplication.screens.questiondetails.QuestionDetailsActivity
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.Question
@@ -29,7 +30,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
-        questionListUseCase = QuestionListUseCase()
+        questionListUseCase = QuestionListUseCase((application as MyApplication).retrofit)
         setContentView(viewQuestionMVC.rootView)
         screenNavigator = ScreenNavigator(this)
         dialogNavigator = DialogNavigator(supportFragmentManager)

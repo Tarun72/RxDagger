@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.android.myapplication.MyApplication
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.QuestionDetailUseCase
 import com.android.myapplication.screens.common.ScreenNavigator
@@ -32,7 +33,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
 
         dialogNavigator = DialogNavigator(supportFragmentManager)
 
-        questionDetailUseCase = QuestionDetailUseCase()
+        questionDetailUseCase = QuestionDetailUseCase((application as MyApplication).retrofit)
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
     }
