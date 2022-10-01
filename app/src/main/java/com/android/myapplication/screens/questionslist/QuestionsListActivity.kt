@@ -14,7 +14,6 @@ import com.android.myapplication.screens.common.dialogs.DialogNavigator
 import com.android.myapplication.screens.questiondetails.QuestionMVC
 import com.android.myapplication.screens.rxjava.RxjavaActivity
 import kotlinx.coroutines.*
-
 class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -31,6 +30,10 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
         super.onCreate(savedInstanceState)
         viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
         setContentView(viewQuestionMVC.rootView)
+        // improved version of questionListUseCase
+        // Law of demeter, we unnessary using retrofit and stackoverapi instances
+        // activity need not to know about the stackoverapi and Retrofit instance
+        // it only require fetch question list ..... Talk to immediate friends 
         questionListUseCase = (application as MyApplication).questionListUseCase
         screenNavigator = ScreenNavigator(this)
         dialogNavigator = DialogNavigator(supportFragmentManager)
