@@ -10,11 +10,12 @@ import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragmen
 import com.android.myapplication.questions.Question
 import com.android.myapplication.questions.QuestionListUseCase
 import com.android.myapplication.screens.common.ScreenNavigator
+import com.android.myapplication.screens.common.activities.BaseActivity
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
 import com.android.myapplication.screens.questiondetails.QuestionMVC
 import com.android.myapplication.screens.rxjava.RxjavaActivity
 import kotlinx.coroutines.*
-class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
+class QuestionsListActivity : BaseActivity(), QuestionMVC.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -31,10 +32,16 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
         viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
         setContentView(viewQuestionMVC.rootView)
         // improved version of questionListUseCase
-        // Law of demeter, we unnessary using retrofit and stackoverapi instances
-        // activity need not to know about the stackoverapi and Retrofit instance
-        // it only require fetch question list ..... Talk to immediate friends 
-        questionListUseCase = (application as MyApplication).questionListUseCase
+        // Law of demeter, we unnessary using retrofit and StackOverflow API instances
+        // activity need not to know about the StackOverflow API and Retrofit instance
+        // it only require fetch question list ..... Talk to immediate friends
+        /***********************************************************************/
+       // we ar using  (application as MyApplication).appCompositionRoot again and again
+        // so we need to move it upper level.... one level up
+        // so we are creating base activity here
+//        questionListUseCase = (application as MyApplication).appCompositionRoot.questionListUseCase
+
+        questionListUseCase = compositionRoot.questionListUseCase
         screenNavigator = ScreenNavigator(this)
         dialogNavigator = DialogNavigator(supportFragmentManager)
 

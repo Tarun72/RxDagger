@@ -9,11 +9,12 @@ import com.android.myapplication.MyApplication
 import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.QuestionDetailUseCase
 import com.android.myapplication.screens.common.ScreenNavigator
+import com.android.myapplication.screens.common.activities.BaseActivity
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
 import com.android.myapplication.screens.questionslist.QuestionsDetailMVC
 import kotlinx.coroutines.*
 
-class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickListener {
+class QuestionDetailsActivity : BaseActivity(), QuestionsDetailMVC.ClickListener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -33,7 +34,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionsDetailMVC.ClickLis
 
         dialogNavigator = DialogNavigator(supportFragmentManager)
 
-        questionDetailUseCase = (application as MyApplication).questionDetailUseCase
+        questionDetailUseCase = compositionRoot.questionDetailUseCase
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
     }
