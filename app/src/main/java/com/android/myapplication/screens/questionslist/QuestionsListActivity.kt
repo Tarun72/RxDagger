@@ -30,8 +30,8 @@ class QuestionsListActivity : AppCompatActivity(), QuestionMVC.Listener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
-        questionListUseCase = QuestionListUseCase((application as MyApplication).stackoverflowApi)
         setContentView(viewQuestionMVC.rootView)
+        questionListUseCase = (application as MyApplication).questionListUseCase
         screenNavigator = ScreenNavigator(this)
         dialogNavigator = DialogNavigator(supportFragmentManager)
 

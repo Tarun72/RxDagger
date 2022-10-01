@@ -2,6 +2,8 @@ package com.android.myapplication
 
 import android.app.Application
 import com.android.myapplication.networking.StackoverflowApi
+import com.android.myapplication.questions.QuestionDetailUseCase
+import com.android.myapplication.questions.QuestionListUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,6 +15,8 @@ class MyApplication: Application() {
         .build()
     val stackoverflowApi: StackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
+    val questionDetailUseCase get() = QuestionDetailUseCase(stackoverflowApi)
+   val  questionListUseCase get() = QuestionListUseCase(stackoverflowApi)
 
     override fun onCreate() {
         super.onCreate()
