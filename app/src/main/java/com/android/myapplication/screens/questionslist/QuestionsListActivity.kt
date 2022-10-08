@@ -42,8 +42,8 @@ class QuestionsListActivity : BaseActivity(), QuestionMVC.Listener {
 //        questionListUseCase = (application as MyApplication).appCompositionRoot.questionListUseCase
 
         questionListUseCase = compositionRoot.questionListUseCase
-        screenNavigator = ScreenNavigator(this)
-        dialogNavigator = DialogNavigator(supportFragmentManager)
+        screenNavigator = compositionRoot.screenNavigator
+        dialogNavigator = compositionRoot.dialogNavigator
 
     }
 

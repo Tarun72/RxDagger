@@ -30,9 +30,9 @@ class QuestionDetailsActivity : BaseActivity(), QuestionsDetailMVC.ClickListener
         super.onCreate(savedInstanceState)
         questionMVC = QuestionsDetailMVC(LayoutInflater.from(this), null)
         setContentView(questionMVC.rootView)
-        screenNavigator = ScreenNavigator(this)
+        screenNavigator = compositionRoot.screenNavigator
 
-        dialogNavigator = DialogNavigator(supportFragmentManager)
+        dialogNavigator = compositionRoot.dialogNavigator
 
         questionDetailUseCase = compositionRoot.questionDetailUseCase
         // retrieve question ID passed from outside
