@@ -3,24 +3,19 @@ package com.android.myapplication.screens.questiondetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.android.myapplication.MyApplication
-import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.QuestionDetailUseCase
 import com.android.myapplication.screens.common.ScreenNavigator
 import com.android.myapplication.screens.common.activities.BaseActivity
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
-import com.android.myapplication.screens.questionslist.QuestionsDetailMVC
 import kotlinx.coroutines.*
 
-class QuestionDetailsActivity : BaseActivity(), QuestionsDetailMVC.ClickListener {
+class QuestionDetailsActivity : BaseActivity(), QuestionsDatailMVC.ClickListener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
     private lateinit var questionId: String
 
-    lateinit var questionMVC: QuestionsDetailMVC
+    lateinit var questionMVC: QuestionsDatailMVC
     lateinit var questionDetailUseCase: QuestionDetailUseCase
     lateinit var dialogNavigator: DialogNavigator
     lateinit var screenNavigator: ScreenNavigator
@@ -28,7 +23,7 @@ class QuestionDetailsActivity : BaseActivity(), QuestionsDetailMVC.ClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        questionMVC = QuestionsDetailMVC(LayoutInflater.from(this), null)
+        questionMVC = compositionRoot.mvcFactory.toQuestionDetailActivity(null)
         setContentView(questionMVC.rootView)
         screenNavigator = compositionRoot.screenNavigator
 

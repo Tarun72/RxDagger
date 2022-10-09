@@ -1,4 +1,4 @@
-package com.android.myapplication.screens.questionslist
+package com.android.myapplication.screens.questiondetails
 
 import android.os.Build
 import android.text.Html
@@ -10,10 +10,10 @@ import com.android.myapplication.R
 import com.android.myapplication.screens.common.toolbar.MyToolbar
 import com.android.myapplication.screens.common.views.BasicMVCView
 
-class QuestionsDetailMVC constructor(
+class QuestionsDatailMVC constructor(
     layoutInflater: LayoutInflater,
     viewGroup: ViewGroup?
-): BasicMVCView<QuestionsDetailMVC.ClickListener>(layoutInflater,viewGroup  ,R.layout.layout_question_details) {
+): BasicMVCView<QuestionsDatailMVC.ClickListener>(layoutInflater,viewGroup  ,R.layout.layout_question_details) {
 
     private lateinit var toolbar: MyToolbar
     private lateinit var swipeRefresh: SwipeRefreshLayout

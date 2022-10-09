@@ -1,4 +1,4 @@
-package com.android.myapplication.screens.questiondetails
+package com.android.myapplication.screens.questionslist
 
 import android.view.LayoutInflater
 import android.view.View

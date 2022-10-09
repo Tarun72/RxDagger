@@ -3,16 +3,11 @@ package com.android.myapplication.screens.questionslist
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import com.android.myapplication.MyApplication
-import com.android.myapplication.screens.questiondetails.QuestionDetailsActivity
-import com.android.myapplication.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.myapplication.questions.Question
 import com.android.myapplication.questions.QuestionListUseCase
 import com.android.myapplication.screens.common.ScreenNavigator
 import com.android.myapplication.screens.common.activities.BaseActivity
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
-import com.android.myapplication.screens.questiondetails.QuestionMVC
 import com.android.myapplication.screens.rxjava.RxjavaActivity
 import kotlinx.coroutines.*
 class QuestionsListActivity : BaseActivity(), QuestionMVC.Listener {
@@ -29,7 +24,7 @@ class QuestionsListActivity : BaseActivity(), QuestionMVC.Listener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewQuestionMVC = QuestionMVC(LayoutInflater.from(this), null)
+        viewQuestionMVC = compositionRoot.mvcFactory.toQuestionListActivity(null)
         setContentView(viewQuestionMVC.rootView)
         // improved version of questionListUseCase
         // Law of demeter, we unnessary using retrofit and StackOverflow API instances
