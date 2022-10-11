@@ -6,8 +6,7 @@ import com.android.myapplication.common.composition.ActivityCompositionRoot
 import com.android.myapplication.common.composition.AppCompositionRoot
 
 open class BaseActivity : AppCompatActivity() {
-    //    val compositionRoot:AppCompositionRoot get() = (application as MyApplication).appCompositionRoot
-    val compositionRoot: ActivityCompositionRoot =
+    val compositionRoot: ActivityCompositionRoot get() =
         ActivityCompositionRoot(this, (application as MyApplication).appCompositionRoot)
 
 }
