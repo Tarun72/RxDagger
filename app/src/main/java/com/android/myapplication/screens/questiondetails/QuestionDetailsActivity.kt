@@ -7,6 +7,7 @@ import com.android.myapplication.questions.QuestionDetailUseCase
 import com.android.myapplication.screens.common.ScreenNavigator
 import com.android.myapplication.screens.common.activities.BaseActivity
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
+import com.android.myapplication.screens.common.views.ViewMVCFactory
 import kotlinx.coroutines.*
 
 class QuestionDetailsActivity : BaseActivity(), QuestionsDatailMVC.ClickListener {
@@ -19,17 +20,14 @@ class QuestionDetailsActivity : BaseActivity(), QuestionsDatailMVC.ClickListener
     lateinit var questionDetailUseCase: QuestionDetailUseCase
     lateinit var dialogNavigator: DialogNavigator
     lateinit var screenNavigator: ScreenNavigator
+    lateinit var mvcFactory: ViewMVCFactory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        questionMVC = compositionRoot.mvcFactory.toQuestionDetailActivity(null)
+        injector.inject(this)
+        questionMVC = mvcFactory.toQuestionDetailActivity(null)
         setContentView(questionMVC.rootView)
-        screenNavigator = compositionRoot.screenNavigator
-
-        dialogNavigator = compositionRoot.dialogNavigator
-
-        questionDetailUseCase = compositionRoot.questionDetailUseCase
         // retrieve question ID passed from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
     }

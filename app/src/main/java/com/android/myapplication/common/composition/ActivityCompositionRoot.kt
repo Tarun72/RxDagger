@@ -16,14 +16,11 @@ class ActivityCompositionRoot (private val activity : AppCompatActivity
     val screenNavigator by lazy {
         ScreenNavigator(activity)
     }
-    private val stackOverflowError get() = appCompositionRoot.stackoverflowApi
-    private val fragmentManager get() = activity.supportFragmentManager
-    val dialogNavigator get() = DialogNavigator(fragmentManager)
+     val stackOverflowError get() = appCompositionRoot.stackoverflowApi
+     val fragmentManager get() = activity.supportFragmentManager
 
-    val questionDetailUseCase get() = QuestionDetailUseCase(stackOverflowError)
-    val questionListUseCase get() = QuestionListUseCase(stackOverflowError)
+     val layoutInflater:LayoutInflater get() = LayoutInflater.from(activity)
 
-    private val layoutInflater get() = LayoutInflater.from(activity)
-     val mvcFactory:ViewMVCFactory get() = ViewMVCFactory(layoutInflater)
+    val application get() = appCompositionRoot.application
 
 }

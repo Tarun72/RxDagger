@@ -1,10 +1,10 @@
 package com.android.myapplication.common.composition
 
+import android.app.Application
 import androidx.annotation.UiThread
 import com.android.myapplication.Constants
+import com.android.myapplication.MyApplication
 import com.android.myapplication.networking.StackoverflowApi
-import com.android.myapplication.questions.QuestionDetailUseCase
-import com.android.myapplication.questions.QuestionListUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
  * 
  * */
 @UiThread
-class AppCompositionRoot {
+class AppCompositionRoot(val application: Application) {
     // init retrofit
     private val retrofit by lazy {  Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)

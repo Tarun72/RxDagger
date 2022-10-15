@@ -10,8 +10,10 @@ import com.android.myapplication.questions.QuestionListUseCase
 import com.android.myapplication.screens.common.BaseFragment
 import com.android.myapplication.screens.common.ScreenNavigator
 import com.android.myapplication.screens.common.dialogs.DialogNavigator
+import com.android.myapplication.screens.common.views.ViewMVCFactory
 import com.android.myapplication.screens.rxjava.RxjavaActivity
 import kotlinx.coroutines.*
+
 class QuestionsListFragment : BaseFragment(), QuestionMVC.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
@@ -22,25 +24,27 @@ class QuestionsListFragment : BaseFragment(), QuestionMVC.Listener {
     lateinit var questionListUseCase: QuestionListUseCase
     lateinit var dialogNavigator: DialogNavigator
     lateinit var screenNavigator: ScreenNavigator
+    lateinit var mvcFactory: ViewMVCFactory
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        injector.inject(this)
         // improved version of questionListUseCase
         // Law of demeter, we unnessary using retrofit and StackOverflow API instances
         // activity need not to know about the StackOverflow API and Retrofit instance
         // it only require fetch question list ..... Talk to immediate friends
         /***********************************************************************/
-       // we ar using  (application as MyApplication).appCompositionRoot again and again
+        // we ar using  (application as MyApplication).appCompositionRoot again and again
         // so we need to move it upper level.... one level up
         // so we are creating base activity here
 //        questionListUseCase = (application as MyApplication).appCompositionRoot.questionListUseCase
 
-        questionListUseCase = compositionRoot.questionListUseCase
+//        injected in framework way
+  /*      questionListUseCase = compositionRoot.questionListUseCase
         screenNavigator = compositionRoot.screenNavigator
         dialogNavigator = compositionRoot.dialogNavigator
-
+*/
     }
 
     override fun onCreateView(
@@ -48,7 +52,7 @@ class QuestionsListFragment : BaseFragment(), QuestionMVC.Listener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewQuestionMVC = compositionRoot.mvcFactory.toQuestionListActivity(container)
+        viewQuestionMVC = mvcFactory.toQuestionListActivity(container)
         return viewQuestionMVC.rootView
     }
 
